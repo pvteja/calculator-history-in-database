@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculatorWithHistory.View.HistoryPage"
+             xmlns:viewmodel="clr-namespace:CalculatorWithHistory.ViewModel"
+             x:DataType="viewmodel:HistoryViewModel"
+             xmlns:models="clr-namespace:CalculatorWithHistory.Models"
+             BackgroundImageSource="background.png"
+             >
+
+    <Grid RowDefinitions="*,auto">
+        <CollectionView Grid.Row="0" ItemsSource="{Binding History}"  >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:HistoryExpressionModel">
+
+                    <Grid Padding="10" ColumnDefinitions="*,auto">
+                        <Frame BackgroundColor="Transparent">
+
+                            <Label Grid.Row="0" FontSize="25" TextColor="White" Text="{Binding Expression}"/>
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:HistoryViewModel}},Path=DisplayActionCommand}"
+                                                  CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <ImageButton Source="trash.png" Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:HistoryViewModel}},Path=DeleteExpresssionCommand}" CommandParameter="{Binding .}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center" HeightRequest="50" WidthRequest="50" /> 
+                        <!--  <Frame HeightRequest="100">
+                            <Label Text="{Binding id}" FontSize="20"  />
+                        </Frame>
+                        <Frame HeightRequest="1">
+                            <Label Text="{Binding question}" FontSize="20"  /> 
+                        </Frame> -->
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ImageButton Source="trash.png" Command="{Binding DeleteAllCommand}"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="EndAndExpand" HeightRequest="50" WidthRequest="50" />
+    </Grid>
+</ContentPage>
